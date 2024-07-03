@@ -1,0 +1,7 @@
+langchain_google_genai
+langchain
+google
+PyPDF2
+langchain_community
+faiss-cpu
+pydantic
