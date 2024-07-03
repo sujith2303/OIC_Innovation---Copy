@@ -1,8 +1,14 @@
 import streamlit as st
 import os
 from main import response_generator
+from PIL import Image
 
 
+im = Image.open("logo.png")
+st.set_page_config(
+    page_title="OPidea",
+    page_icon=im
+)
 st.title("OPidea")
 
 if "openai_model" not in st.session_state:
