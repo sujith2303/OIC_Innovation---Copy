@@ -1,4 +1,3 @@
-from openai import OpenAI
 import streamlit as st
 import os
 from main import response_generator
