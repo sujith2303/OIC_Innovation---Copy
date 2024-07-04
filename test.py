@@ -6,13 +6,11 @@ from PIL import Image
 
 im = Image.open("logo.png")
 st.set_page_config(
-    page_title="OPidea",
+    page_title="Oracle Wiki",
     page_icon=im
 )
-st.title("OPidea")
+st.title("Oracle Wiki")
 
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []

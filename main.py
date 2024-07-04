@@ -13,8 +13,8 @@ from langchain.prompts import PromptTemplate
 # os.getenv("GOOGLE_API_KEY")
 # genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAgkKi4TKH9xL3N78FWn7SS7yDIz0T4r_4"
-genai.configure(api_key="AIzaSyAgkKi4TKH9xL3N78FWn7SS7yDIz0T4r_4")
+os.environ["GOOGLE_API_KEY"] = "AIzaSyCsYPr4TiZEjCTcrOP_Itw3CiIYk7sKykc"
+genai.configure(api_key="AIzaSyCsYPr4TiZEjCTcrOP_Itw3CiIYk7sKykc")
 
 
 def get_pdf_text(pdf_docs):
@@ -91,9 +91,11 @@ def response_generator(prompt,chat_history):
 
 
 if __name__ == "__main__":
-    get_vector_store(get_text_chunks(get_pdf_text([r"C:\Users\Sujith\Downloads\Innovation\using-google-calendar-adapter-oracle-integration-generation-2.pdf"])))
-    chat_history  = ''
-    prompt = "how to add the Google Calendar Adapter Connection to an Integration"
-    response =response_generator(prompt,chat_history)
-    chat_history += f"""User: {prompt}\nBot: {response}\n"""
+    files = os.listdir(r"C:\Users\Sujith\Downloads\Innovation\OIC_Docs")
+    os.chdir(r"C:\Users\Sujith\Downloads\Innovation\OIC_Docs")
+    get_vector_store(get_text_chunks(get_pdf_text(files)))
+    # chat_history  = ''
+    # prompt = "how to add the Google Calendar Adapter Connection to an Integration"
+    # response =response_generator(prompt,chat_history)
+    # chat_history += f"""User: {prompt}\nBot: {response}\n"""
     # print('\033[95m'+chat_history+'\033[0m')
