@@ -76,8 +76,7 @@ def user_input(user_question,chat_history):
     docs = new_db.similarity_search(user_question)
     retriver = new_db.as_retriever()
     output_docs=  retriver.get_relevant_documents(user_question)
-    print('='*150)
-    print(output_docs[0]['page_content'])
+
     chain = get_conversational_chain()
 
     response = chain(
