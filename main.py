@@ -7,6 +7,8 @@ from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
+
+
 # from dotenv import load_dotenv
 
 # load_dotenv()
@@ -42,15 +44,15 @@ def get_vector_store(text_chunks):
 def get_conversational_chain():
 
     prompt_template = """
-    Hey Gemini. Act as OIC Bot and follow the instructions and answer the question accordingly. 
+    Hey Gemini. Act as OIC Bot and follow the instructions strictly and answer the question accordingly. 
 Chat Instructions:
-1. Explain the question in 1-2 lines with heading as Question Explaination.
-2. Explain the potential solution with heading as Potential Solution to it and don't hallucinate.
-General Instructions:
-1. Ensure that you answer clearly and briefly and only answer from the context strictly.
-2. While answering the question follow these steps.
-3. Make sure you explain every question step by step and don't exceed 15 lines.
-Here is the chat history and respond to the user query accordingly.
+1. The reponse must contain Question Explaination Heading.
+2. The reponse must contain Potential Solution Heading.
+3. Ensure that you answer clearly and briefly and only answer from the context strictly.
+4. While answering the question follow these steps.
+5. Make sure you explain every question step by step and don't exceed 15 lines.
+6. The reponse must give a brief summary of what you have explained.
+7. Reponse must have possible error scenarios or have few Edge cases to consider.
 chat_history: \n {chat_history}\n
     Context:\n {context}\n
     Question: \n{question}?\n
@@ -73,20 +75,21 @@ def user_input(user_question,chat_history):
     new_db = FAISS.load_local("faiss_index", embeddings,allow_dangerous_deserialization  = True)
     docs = new_db.similarity_search(user_question)
     retriver = new_db.as_retriever()
-    output_docs=  retriver.get_relevant_documents(user_question) 
-
+    output_docs=  retriver.get_relevant_documents(user_question)
+    print('='*150)
+    print(output_docs[0]['page_content'])
     chain = get_conversational_chain()
 
     response = chain(
-        {"input_documents":docs, "question": user_question,"chat_history":chat_history,"retrieved":output_docs}
+        {"input_documents":docs, "question": user_question,"chat_history":chat_history}
         , return_only_outputs=True)
 
     # print(response)
-    return response
+    return response,output_docs
 
 def response_generator(prompt,chat_history):
-    response = user_input(prompt,chat_history)
-    return response['output_text']
+    response,output_docs = user_input(prompt,chat_history)
+    return response['output_text'],output_docs
 
 
 
