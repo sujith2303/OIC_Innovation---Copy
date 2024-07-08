@@ -1,8 +1,10 @@
 langchain_google_genai
 langchain
+langchain_experimental
 google
 PyPDF2
 langchain_community
 faiss-cpu
 pydantic
 pillow
+tabulate

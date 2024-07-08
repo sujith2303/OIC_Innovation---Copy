@@ -7,6 +7,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
+from langchain_experimental.agents.agent_toolkits import create_csv_agent
 
 
 # from dotenv import load_dotenv
@@ -44,7 +45,7 @@ def get_vector_store(text_chunks):
 def get_conversational_chain():
 
     prompt_template = """
-    Hey Gemini. Act as OIC Bot and follow the instructions strictly and answer the question accordingly. 
+    Hey Gemini. You are an OIC Bot now and follow the instructions strictly and answer the question accordingly. 
 Chat Instructions:
 1. The reponse must contain Question Explaination Heading.
 2. The reponse must contain Potential Solution Heading.
@@ -90,7 +91,13 @@ def response_generator(prompt,chat_history):
     response,output_docs = user_input(prompt,chat_history)
     return response['output_text'],output_docs
 
-
+############################  DB QUERY CSV ########################
+def query_csv_db(csv_files,query):
+    model = ChatGoogleGenerativeAI(model="gemini-pro",
+                             temperature=0)
+    agent = create_csv_agent(llm=model,path=csv_files,verbose = True,allow_dangerous_code=True)
+    result = agent.invoke(query)
+    return result
 
 if __name__ == "__main__":
     files = os.listdir(r"C:\Users\Sujith\Downloads\Innovation\OIC_Docs")

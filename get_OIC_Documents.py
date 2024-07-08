@@ -35,3 +35,4 @@ for pdf_link in pdf_links:
       print('PDF downloaded successfully.')
   else:
       print('Failed to download PDF.')
+      
